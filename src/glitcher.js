@@ -1,5 +1,8 @@
 (() => {
 
+  // Glitcher elements CSS selector name
+  const elemSelector = ".glitcher";
+
   /**
    * Set `true` if you need to make images adaptive
    * or `false` to make fixed images sizes
@@ -26,7 +29,7 @@
   window.addEventListener("load", function () {
 
     // Custom images selector
-    init(".glitcher", {
+    init(elemSelector, {
       /**
        * Custom CSS styles
        * width: "100%",
