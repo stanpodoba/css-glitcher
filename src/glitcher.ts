@@ -36,6 +36,8 @@
     min: 1
   };
 
+  const { createElement } = document;
+
   window.addEventListener("load", () => {
 
     // Custom images selector
@@ -104,7 +106,7 @@
       width: Math.round((($image as HTMLElement).offsetWidth) || 0)
     };
 
-    newElement = document.createElement("DIV");
+    newElement = createElement("div");
 
     // Replace image to Glitcher block
     if ($image.tagName !== "DIV") {
@@ -144,12 +146,12 @@
 
     // Generates needed html for Glitcher
     while (j < 10) {
-      frameElement = document.createElement("DIV");
+      frameElement = createElement("div");
       frameElement.classList.add("frame");
 
       while (k < 2) {
-        picElement = document.createElement("DIV");
         picElement.style.backgroundImage = imageUrl;
+        picElement = createElement("div");
         picElement.style.animationDelay = randomDelay + "s";
 
         frameElement.append(picElement);
@@ -159,7 +161,7 @@
 
       k = 0;
 
-      glitcherHtml = document.createElement("DIV");
+      glitcherHtml = createElement("div");
       glitcherHtml.classList.add("part", "part_" + j);
       glitcherHtml.style.animationDelay = randomDelay + "s";
 
