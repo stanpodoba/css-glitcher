@@ -1,0 +1,319 @@
+.glitcher {
+  position: relative;
+
+  .part {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+
+  .frame {
+    width: 100%;
+    height: 100%;
+
+    div {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-size: cover;
+      background-position: 50% 0;
+
+      &:first-child {
+        /* Play with speed and duration value for unique results */
+        animation: glitcher_main 10s step-start 1s infinite;
+      }
+
+      &:last-child {
+        /* Play with speed and duration value for unique results */
+        animation: glitcher_left 10s step-start 1s infinite;
+        mix-blend-mode: hue;
+      }
+    }
+  }
+
+  .part_3,
+  .part_5,
+  .part_7,
+  .part_9 {
+    /* Play with speed and duration value for unique results */
+    animation: glitcher_left 10s step-start 1s infinite;
+  }
+
+  .part_2,
+  .part_4,
+  .part_6,
+  .part_8,
+  .part_10 {
+    /* Play with speed and duration value for unique results */
+    animation: glitcher_right 10s step-start 1s infinite;
+  }
+
+  .part_1 {
+    height: 100%;
+    top: 0;
+    opacity: 1;
+  }
+
+  .part_2 {
+    height: 10%;
+    top: 20%;
+
+    .frame div {
+      background-position: 50% 19%;
+    }
+  }
+
+  .part_3 {
+    height: 5%;
+    top: 30%;
+
+    .frame div {
+      background-position: 50% 27.1%;
+    }
+  }
+
+  .part_4 {
+    height: 3%;
+    top: 35%;
+
+    .frame div {
+      background-position: 50% 31.2%;
+    }
+  }
+
+  .part_5 {
+    height: 10%;
+    top: 38%;
+
+    .frame div {
+      background-position: 50% 36.1%;
+    }
+  }
+
+  .part_6 {
+    height: 20%;
+    top: 48%;
+
+    .frame div {
+      background-position: 50% 50.5%;
+    }
+  }
+
+  .part_7 {
+    height: 5%;
+    top: 68%;
+
+    .frame div {
+      background-position: 50% 61.7%;
+    }
+  }
+
+  .part_8 {
+    height: 2%;
+    top: 73%;
+
+    .frame div {
+      background-position: 50% 64.6%;
+    }
+  }
+
+  .part_9 {
+    height: 7%;
+    top: 75%;
+
+    .frame div {
+      background-position: 50% 69.5%;
+    }
+  }
+
+  .part_10 {
+    height: 18%;
+    top: 82%;
+
+    .frame div {
+      background-position: 50% 84.7%;
+    }
+  }
+
+  &-item {
+    background-size: cover;
+  }
+}
+
+/* Main Glitch animation keyframes */
+@keyframes glitcher_main {
+  0% {
+    left: 0;
+  }
+
+  1% {
+    left: 5%;
+  }
+
+  2% {
+    top: 1%;
+    left: 4%;
+  }
+
+  3% {
+    top: 2%;
+    left: 3%;
+  }
+
+  4% {
+    left: 0;
+    top: 0;
+  }
+
+  19% {
+    left: 0;
+    top: 0;
+  }
+
+  20% {
+    top: -1%;
+    left: 5%;
+  }
+
+  22% {
+    top: 1%;
+    left: 1%;
+  }
+
+  23% {
+    left: 0;
+  }
+
+  100% {
+    left: 0;
+  }
+}
+
+/* Second Glitch animation keyframes */
+@keyframes glitcher_right {
+  0% {
+    left: 0;
+    opacity: 0;
+    mix-blend-mode: normal;
+  }
+
+  1% {
+    left: 5%;
+    opacity: 1;
+    mix-blend-mode: color-dodge;
+  }
+
+  2% {
+    left: 2%;
+    opacity: 1;
+  }
+
+  3% {
+    left: 4%;
+    opacity: 1;
+    mix-blend-mode: color-dodge;
+  }
+
+  4% {
+    left: 0;
+    opacity: 0;
+    mix-blend-mode: normal;
+  }
+
+  19% {
+    left: 0;
+    opacity: 0;
+    mix-blend-mode: normal;
+  }
+
+  20% {
+    left: 5%;
+    opacity: 1;
+  }
+
+  22% {
+    left: 1%;
+    opacity: 1;
+    mix-blend-mode: color-dodge;
+  }
+
+  23% {
+    left: 0;
+    opacity: 0;
+    mix-blend-mode: normal;
+  }
+
+  100% {
+    left: 0;
+    opacity: 0;
+    mix-blend-mode: normal;
+  }
+}
+
+/* Third Glitch animation keyframes */
+@keyframes glitcher_left {
+  0% {
+    left: 0;
+    opacity: 0;
+    mix-blend-mode: normal;
+  }
+
+  1% {
+    left: -5%;
+    opacity: 1;
+    mix-blend-mode: color-dodge;
+  }
+
+  2% {
+    left: -2%;
+    opacity: 1;
+  }
+
+  3% {
+    left: -4%;
+    opacity: 1;
+    mix-blend-mode: color-dodge;
+  }
+
+  4% {
+    left: 0;
+    opacity: 0;
+    mix-blend-mode: normal;
+  }
+
+  19% {
+    left: 0;
+    opacity: 0;
+    mix-blend-mode: normal;
+  }
+
+  20% {
+    left: -5%;
+    opacity: 1;
+  }
+
+  22% {
+    left: -1%;
+    opacity: 1;
+    mix-blend-mode: color-dodge;
+  }
+
+  23% {
+    left: 0;
+    opacity: 0;
+    mix-blend-mode: normal;
+  }
+
+  100% {
+    left: 0;
+    opacity: 0;
+    mix-blend-mode: normal;
+  }
+}
