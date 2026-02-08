@@ -44,9 +44,9 @@
 
   function init(imagesSelector, styles) {
 
-    let glitchedElement;
-    let index = 0;
-    let $sourceImages;
+    let glitchedElement: HTMLElement | undefined;
+    let index: number = 0;
+    let $sourceImages: NodeListOf<Element>;
 
     // Get all Glitcher blocks
     if (!imagesSelector) {
@@ -78,9 +78,9 @@
 
   function imgToGlitch($image, index, styles) {
 
-    let imageUrl;
-    let newElement;
-    let ratio;
+    let imageUrl: string | undefined;
+    let newElement: HTMLElement;
+    let ratio: string | undefined;
     let imageSize = {
       height: 0,
       width: 0
@@ -100,8 +100,8 @@
 
     // Get image size
     imageSize = {
-      height: Math.round($image.offsetHeight),
-      width: Math.round($image.offsetWidth)
+      height: Math.round((($image as HTMLElement).offsetHeight) || 0),
+      width: Math.round((($image as HTMLElement).offsetWidth) || 0)
     };
 
     newElement = document.createElement("DIV");
@@ -129,15 +129,15 @@
 
     applyStylesToElement(newElement, styles);
 
-    return generateGlitcherParts(newElement, imageUrl);
+    return generateGlitcherParts(newElement, imageUrl as string);
   }
 
-  function generateGlitcherParts(imgElement, imageUrl) {
-    let frameElement;
-    let picElement;
-    let glitcherHtml;
-    let j = 0;
-    let k = 0;
+  function generateGlitcherParts(imgElement: HTMLElement, imageUrl: string): HTMLElement {
+    let frameElement: HTMLElement;
+    let picElement: HTMLElement;
+    let glitcherHtml: HTMLElement;
+    let j: number = 0;
+    let k: number = 0;
 
     // Random animation delay in seconds
     let randomDelay = randomTime(delay.min, delay.max);
@@ -173,25 +173,25 @@
   }
 
   // Return DIV, IMG or PICTURE background URL
-  function getImageUrl($obj) {
-    let $img;
-    let url;
+  function getImageUrl($obj: Element): string | undefined {
+    let $img: HTMLImageElement | null;
+    let url: string | null | undefined;
 
-    if ($obj.tagName === "DIV") {
+    if ($obj.tagName === "div") {
       url = $obj.style.backgroundImage || window.getComputedStyle($obj).backgroundImage;
       if (url && url !== "none") {
         return url.replace(/"/g, "");
       }
     }
 
-    if ($obj.tagName === "IMG") {
+    if ($obj.tagName === "img") {
       url = $obj.getAttribute("src");
       if (url) {
         return "url(" + url + ")";
       }
     }
 
-    if ($obj.tagName === "PICTURE") {
+    if ($obj.tagName === "picture") {
       $img = $obj.querySelector("img");
       if (!$img) {
         return;
