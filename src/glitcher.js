@@ -3,6 +3,16 @@
   // Glitcher elements CSS selector name
   const elemSelector = ".glitcher";
 
+  const customCss = {
+    /**
+     * Custom CSS styles
+     * width: "100%",
+     * height: auto,
+     * maxWidth: 512px,
+     * minHeight: 512px
+     */
+  };
+
   /**
    * Set `true` if you need to make images adaptive
    * or `false` to make fixed images sizes
@@ -29,15 +39,7 @@
   window.addEventListener("load", function () {
 
     // Custom images selector
-    init(elemSelector, {
-      /**
-       * Custom CSS styles
-       * width: "100%",
-       * height: auto,
-       * maxWidth: 512px,
-       * minHeight: 512px
-       */
-    });
+    init(elemSelector, customCss);
   });
 
   function init(imagesSelector, styles) {
