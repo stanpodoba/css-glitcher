@@ -175,7 +175,7 @@
   }
 
   // Return DIV, IMG or PICTURE background URL
-  function getImageUrl($obj: Element): string | undefined {
+  function getImageUrl($obj: HTMLElement): string | undefined {
     let $img: HTMLImageElement | null;
     let url: string | null | undefined;
 
