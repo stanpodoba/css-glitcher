@@ -10,7 +10,7 @@ export default defineConfig({
         style: 'src/glitcher.scss',
       },
       output: {
-        entryFileNames: '[name].js',
+        entryFileNames: 'glitcher.js',
         assetFileNames: '[name].[ext]',
       }
     }
