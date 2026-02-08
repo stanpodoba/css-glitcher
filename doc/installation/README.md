@@ -157,7 +157,3 @@ Maximum seconds of delay for start animation.
 #### `min`
 
 Minimum seconds of delay for start animation.
-
----
-
-If you have any questions feel free to visit [support page on CodeCanyon](https://codecanyon.net/item/css-glitcher-expressive-animated-effect/23487360/support) and I'll try to help you!

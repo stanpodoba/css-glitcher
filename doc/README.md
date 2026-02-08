@@ -6,7 +6,7 @@
 
 ---
 
-[CSS Glitcher](https://codecanyon.net/item/css-glitcher-expressive-animated-effect/23487360) &mdash; is a modern and expressive CSS glitch effect for web pages.
+CSS Glitcher &mdash; is a modern and expressive CSS glitch effect for web pages.
 
 For example, you can use it with sites on the topic below:
 
