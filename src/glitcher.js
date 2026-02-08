@@ -1,227 +1,226 @@
-(function () {
-    "use strict";
+(() => {
+
+  /**
+   * Set `true` if you need to make images adaptive
+   * or `false` to make fixed images sizes
+   * based on size before applying the glitch effect
+   */
+  let adaptiveSizes = true;
+
+  // Images animation delay
+  let delay = {
 
     /**
-     * Set `true` if you need to make images adaptive
-     * or `false` to make fixed images sizes
-     * based on size before applying the glitch effect
+     * Turn ON/OFF to calculate maximum amount of delay
+     * equal amount of glitch elements
      */
-    var adaptiveSizes = true;
+    autoMax: false,
 
-    // Images animation delay
-    var delay = {
+    // Maximum amount of delay for start animation
+    max: 10,
 
-        /**
-         * Turn ON/OFF to calculate maximum amount of delay
-         * equal amount of glitch elements
-         */
-        autoMax: false,
+    // Minimum amount of delay for start animation
+    min: 1
+  };
 
-        // Maximum amount of delay for start animation
-        max: 10,
+  window.addEventListener("load", function () {
 
-        // Minimum amount of delay for start animation
-        min: 1
+    // Custom images selector
+    init(".glitcher", {
+      /**
+       * Custom CSS styles
+       * width: "100%",
+       * height: auto,
+       * maxWidth: 512px,
+       * minHeight: 512px
+       */
+    });
+  });
+
+  function init(imagesSelector, styles) {
+
+    let glitchedElement;
+    let index = 0;
+    let $sourceImages;
+
+    // Get all Glitcher blocks
+    if (!imagesSelector) {
+      return;
+    }
+
+    $sourceImages = document.querySelectorAll(imagesSelector);
+
+    if (!$sourceImages) {
+      return;
+    }
+
+    // Makes maximum amount of delay equal amount of glitch elements
+    if (delay.autoMax) {
+      delay.max = delay.min + $sourceImages.length - 1;
+    }
+
+    // Set CSS styles for Glitcher elements
+    while (index < $sourceImages.length) {
+      glitchedElement = imgToGlitch($sourceImages[index], index, styles);
+
+      if (glitchedElement) {
+        $sourceImages[index].replaceWith(glitchedElement);
+      }
+
+      index = index + 1;
+    }
+  }
+
+  function imgToGlitch($image, index, styles) {
+
+    let imageUrl;
+    let newElement;
+    let ratio;
+    let imageSize = {
+      height: 0,
+      width: 0
     };
 
-    window.addEventListener("load", function () {
-
-        // Custom images selector
-        init(".glitcher", {
-            /**
-             * Custom CSS styles
-             * width: "100%",
-             * height: auto,
-             * maxWidth: 512px,
-             * minHeight: 512px
-             */
-        });
-    });
-
-    function init(imagesSelector, styles) {
-
-        var glitchedElement;
-        var index = 0;
-        var $sourceImages;
-
-        // Get all Glitcher blocks
-        if (!imagesSelector) {
-            return;
-        }
-
-        $sourceImages = document.querySelectorAll(imagesSelector);
-
-        if (!$sourceImages) {
-            return;
-        }
-
-        // Makes maximum amount of delay equal amount of glitch elements
-        if (delay.autoMax) {
-            delay.max = delay.min + $sourceImages.length - 1;
-        }
-
-        // Set CSS styles for Glitcher elements
-        while (index < $sourceImages.length) {
-            glitchedElement = imgToGlitch($sourceImages[index], index, styles);
-
-            if (glitchedElement) {
-                $sourceImages[index].replaceWith(glitchedElement);
-            }
-
-            index = index + 1;
-        }
+    if (!$image || !(index === 0 || index > 0)) {
+      return;
     }
 
-    function imgToGlitch($image, index, styles) {
+    // Get background url of current element
+    imageUrl = getImageUrl($image);
 
-        var imageUrl;
-        var newElement;
-        var ratio;
-        var imageSize = {
-            height: 0,
-            width: 0
-        };
-
-        if (!$image || !(index === 0 || index > 0)) {
-            return;
-        }
-
-        // Get background url of current element
-        imageUrl = getImageUrl($image);
-
-        // If Glitch element hasn't background url - skips this element
-        if (!imageUrl) {
-            return;
-        }
-
-        // Get image size
-        imageSize = {
-            height: Math.round($image.offsetHeight),
-            width: Math.round($image.offsetWidth)
-        };
-
-        newElement = document.createElement("DIV");
-
-        // Replace image to Glitcher block
-        if ($image.tagName !== "DIV") {
-            newElement.classList.add("glitcher", "glitcher-item");
-            newElement.classList.add("glitcher-item-" + index);
-
-            newElement.style.backgroundImage = imageUrl;
-
-            if (adaptiveSizes) {
-                ratio = getAspectRation(imageSize.width, imageSize.height);
-                newElement.style.aspectRatio = ratio;
-            } else {
-                newElement.style.width = imageSize.width + "px";
-                newElement.style.height = imageSize.height + "px";
-            }
-        }
-
-        // Copy all CSS classes from source element
-        newElement.classList = $image.classList;
-
-        applyStylesToElement(newElement, styles);
-
-        return generateglitcherParts(newElement, imageUrl);
+    // If Glitch element hasn't background url - skips this element
+    if (!imageUrl) {
+      return;
     }
 
-    function generateglitcherParts(imgElement, imageUrl) {
-        var frameElement;
-        var picElement;
-        var glitcherHtml;
-        var j = 0;
-        var k = 0;
+    // Get image size
+    imageSize = {
+      height: Math.round($image.offsetHeight),
+      width: Math.round($image.offsetWidth)
+    };
 
-        // Random animation delay in seconds
-        var rendomDelay = randomTime(delay.min, delay.max);
+    newElement = document.createElement("DIV");
 
-        // Generates needed html for Glitcher
-        while (j < 10) {
-            frameElement = document.createElement("DIV");
-            frameElement.classList.add("frame");
+    // Replace image to Glitcher block
+    if ($image.tagName !== "DIV") {
+      newElement.classList.add("glitcher", "glitcher-item");
+      newElement.classList.add("glitcher-item-" + index);
 
-            while (k < 2) {
-                picElement = document.createElement("DIV");
-                picElement.style.backgroundImage = imageUrl;
-                picElement.style.animationDelay = rendomDelay + "s";
+      newElement.style.backgroundImage = imageUrl;
 
-                frameElement.append(picElement);
-
-                k = k + 1;
-            }
-
-            k = 0;
-
-            glitcherHtml = document.createElement("DIV");
-            glitcherHtml.classList.add("part", "part_" + j);
-            glitcherHtml.style.animationDelay = rendomDelay + "s";
-
-            glitcherHtml.append(frameElement);
-            imgElement.append(glitcherHtml);
-
-            j = j + 1;
-        }
-
-        return imgElement;
+      if (adaptiveSizes) {
+        ratio = getAspectRation(imageSize.width, imageSize.height);
+        newElement.style.aspectRatio = ratio;
+      } else {
+        newElement.style.width = imageSize.width + "px";
+        newElement.style.height = imageSize.height + "px";
+      }
     }
 
-    // Return DIV, IMG or PICTURE background URL
-    function getImageUrl($obj) {
-        var $img;
-        var url;
+    // Copy all CSS classes from source element
+    newElement.classList = $image.classList;
 
-        if ($obj.tagName === "DIV") {
-            url = $obj.style.backgroundImage;
-            if (url) {
-                return url.replace(/"/g, "");
-            }
-        }
+    applyStylesToElement(newElement, styles);
 
-        if ($obj.tagName === "IMG") {
-            url = $obj.getAttribute("src");
-            if (url) {
-                return "url(" + url + ")";
-            }
-        }
+    return generateglitcherParts(newElement, imageUrl);
+  }
 
-        if ($obj.tagName === "PICTURE") {
-            $img = $obj.querySelector("img");
-            if (!$img) {
-                return;
-            }
-            url = $img.getAttribute("src");
-            if (url) {
-                return "url(" + url + ")";
-            }
-        }
+  function generateglitcherParts(imgElement, imageUrl) {
+    let frameElement;
+    let picElement;
+    let glitcherHtml;
+    let j = 0;
+    let k = 0;
+
+    // Random animation delay in seconds
+    let rendomDelay = randomTime(delay.min, delay.max);
+
+    // Generates needed html for Glitcher
+    while (j < 10) {
+      frameElement = document.createElement("DIV");
+      frameElement.classList.add("frame");
+
+      while (k < 2) {
+        picElement = document.createElement("DIV");
+        picElement.style.backgroundImage = imageUrl;
+        picElement.style.animationDelay = rendomDelay + "s";
+
+        frameElement.append(picElement);
+
+        k = k + 1;
+      }
+
+      k = 0;
+
+      glitcherHtml = document.createElement("DIV");
+      glitcherHtml.classList.add("part", "part_" + j);
+      glitcherHtml.style.animationDelay = rendomDelay + "s";
+
+      glitcherHtml.append(frameElement);
+      imgElement.append(glitcherHtml);
+
+      j = j + 1;
     }
 
-    // Apply all custom styles
-    function applyStylesToElement(element, styles) {
-        var style;
-        var i;
+    return imgElement;
+  }
 
-        while (i < styles.length) {
-            style = styles[i];
-            element.style[i] = style;
-            i = i + 1;
-        }
+  // Return DIV, IMG or PICTURE background URL
+  function getImageUrl($obj) {
+    let $img;
+    let url;
+
+    if ($obj.tagName === "DIV") {
+      url = $obj.style.backgroundImage;
+      if (url) {
+        return url.replace(/"/g, "");
+      }
     }
 
-    // Generates random number from 'min' to 'max'
-    function randomTime(min, max) {
-        if (!min || !max) {
-            return 0;
-        }
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+    if ($obj.tagName === "IMG") {
+      url = $obj.getAttribute("src");
+      if (url) {
+        return "url(" + url + ")";
+      }
     }
 
-    // Return aspect ratio of width and height
-    function getAspectRation(width, height) {
-        if (!width || !height) {
-            return "inherit";
-        }
-        return "1 / " + (height / width);
+    if ($obj.tagName === "PICTURE") {
+      $img = $obj.querySelector("img");
+      if (!$img) {
+        return;
+      }
+      url = $img.getAttribute("src");
+      if (url) {
+        return "url(" + url + ")";
+      }
     }
-}());
+  }
+
+  // Apply all custom styles
+  function applyStylesToElement(element, styles) {
+    let style;
+    let i;
+
+    while (i < styles.length) {
+      style = styles[i];
+      element.style[i] = style;
+      i = i + 1;
+    }
+  }
+
+  // Generates random number from 'min' to 'max'
+  function randomTime(min, max) {
+    if (!min || !max) {
+      return 0;
+    }
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // Return aspect ratio of width and height
+  function getAspectRation(width, height) {
+    if (!width || !height) {
+      return "inherit";
+    }
+    return "1 / " + (height / width);
+  }
+})();
