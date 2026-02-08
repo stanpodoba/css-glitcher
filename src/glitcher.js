@@ -127,10 +127,10 @@
 
     applyStylesToElement(newElement, styles);
 
-    return generateglitcherParts(newElement, imageUrl);
+    return generateGlitcherParts(newElement, imageUrl);
   }
 
-  function generateglitcherParts(imgElement, imageUrl) {
+  function generateGlitcherParts(imgElement, imageUrl) {
     let frameElement;
     let picElement;
     let glitcherHtml;
