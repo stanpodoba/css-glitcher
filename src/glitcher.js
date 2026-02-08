@@ -36,7 +36,7 @@
     min: 1
   };
 
-  window.addEventListener("load", function () {
+  window.addEventListener("load", () => {
 
     // Custom images selector
     init(elemSelector, customCss);
