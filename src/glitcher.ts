@@ -55,7 +55,7 @@
 
     $sourceImages = document.querySelectorAll(imagesSelector);
 
-    if (!$sourceImages) {
+    if (!$sourceImages || $sourceImages.length === 0) {
       return;
     }
 
@@ -114,7 +114,7 @@
       newElement.style.backgroundImage = imageUrl;
 
       if (adaptiveSizes) {
-        ratio = getAspectRation(imageSize.width, imageSize.height);
+        ratio = getAspectRatio(imageSize.width, imageSize.height);
         newElement.style.aspectRatio = ratio;
       } else {
         newElement.style.width = imageSize.width + "px";
@@ -122,8 +122,10 @@
       }
     }
 
-    // Copy all CSS classes from source element
-    newElement.classList = $image.classList;
+    // Copy all CSS classes from source element, preserving added classes
+    if ($image.classList && $image.classList.length) {
+      $image.classList.forEach(function(c) { newElement.classList.add(c); });
+    }
 
     applyStylesToElement(newElement, styles);
 
@@ -138,7 +140,7 @@
     let k = 0;
 
     // Random animation delay in seconds
-    let rendomDelay = randomTime(delay.min, delay.max);
+    let randomDelay = randomTime(delay.min, delay.max);
 
     // Generates needed html for Glitcher
     while (j < 10) {
@@ -148,7 +150,7 @@
       while (k < 2) {
         picElement = document.createElement("DIV");
         picElement.style.backgroundImage = imageUrl;
-        picElement.style.animationDelay = rendomDelay + "s";
+        picElement.style.animationDelay = randomDelay + "s";
 
         frameElement.append(picElement);
 
@@ -159,7 +161,7 @@
 
       glitcherHtml = document.createElement("DIV");
       glitcherHtml.classList.add("part", "part_" + j);
-      glitcherHtml.style.animationDelay = rendomDelay + "s";
+      glitcherHtml.style.animationDelay = randomDelay + "s";
 
       glitcherHtml.append(frameElement);
       imgElement.append(glitcherHtml);
@@ -176,8 +178,8 @@
     let url;
 
     if ($obj.tagName === "DIV") {
-      url = $obj.style.backgroundImage;
-      if (url) {
+      url = $obj.style.backgroundImage || window.getComputedStyle($obj).backgroundImage;
+      if (url && url !== "none") {
         return url.replace(/"/g, "");
       }
     }
@@ -203,13 +205,25 @@
 
   // Apply all custom styles
   function applyStylesToElement(element, styles) {
-    let style;
-    let i;
+    if (!styles) {
+      return;
+    }
 
-    while (i < styles.length) {
-      style = styles[i];
-      element.style[i] = style;
-      i = i + 1;
+    if (Array.isArray(styles)) {
+      for (let i = 0; i < styles.length; i = i + 1) {
+        element.style[i] = styles[i];
+      }
+      return;
+    }
+
+    for (const key in styles) {
+      if (Object.prototype.hasOwnProperty.call(styles, key)) {
+        try {
+          element.style[key] = styles[key];
+        } catch (e) {
+          // ignore invalid style keys
+        }
+      }
     }
   }
 
@@ -222,7 +236,7 @@
   }
 
   // Return aspect ratio of width and height
-  function getAspectRation(width, height) {
+  function getAspectRatio(width, height) {
     if (!width || !height) {
       return "inherit";
     }
